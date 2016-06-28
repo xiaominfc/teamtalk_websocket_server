@@ -1,0 +1,33 @@
+ListenIP=0.0.0.0
+ListenPort=9090
+
+ConcurrentDBConnCnt=1
+DBServerIP1=127.0.0.1
+DBServerPort1=10610
+DBServerIP2=127.0.0.1
+DBServerPort2=10610
+
+LoginServerIP1=127.0.0.1
+LoginServerPort1=8100
+#LoginServerIP2=127.0.0.1
+#LoginServerPort2=8101
+
+RouteServerIP1=127.0.0.1
+RouteServerPort1=8200
+#RouteServerIP2=58.49.58.54
+#RouteServerPort2=8201
+
+PushServerIP1=127.0.0.1
+PushServerPort1=8500
+
+FileServerIP1=127.0.0.1
+FileServerPort1=8600
+#FileServerIP2=localhost
+#FileServerPort2=8601
+
+IpAddr1=0.0.0.0	#电信IP
+IpAddr2=0.0.0.0	#网通IP
+MaxConnCnt=100000
+
+# AES key
+aesKey=12345678901234567890123456789012

@@ -15,17 +15,24 @@
 在src路径下执行
 
 ###### clone 代码
+
+``````
 git clone https://github.com/xiaominfc/teamtalk_websocket_server.git
+``````
 
 ###### 编译websocket库
+``````
 cd teamtalk_websocket_server/websocket
 cmake .
 make
 cd ..
+``````
 
 ###### 编译websocket_server
+``````
 cmake .
 make
+``````
 
 这样就编译出来了
 

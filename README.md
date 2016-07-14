@@ -42,3 +42,5 @@ websocket_server 就能运行了
 
 websocket的实现引用了(http://katzarsky.github.com/WebSocket)
 感谢katzarsky
+
+测试用的demo可以参考:https://github.com/xiaominfc/teamtalk_websocket_client

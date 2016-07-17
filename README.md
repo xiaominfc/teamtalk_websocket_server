@@ -11,6 +11,7 @@
 	virtual  int Send(void* data, int len);
 
 ``````
+重新编译一次base
 
 在src路径下执行
 

@@ -88,5 +88,6 @@ int WebSocketConn::Send(void *data, int len)
     unsigned char* outData = (unsigned char*)malloc(len + 14);
     int out_len = websocket.makeFrame(BINARY_FRAME, (unsigned char*)data,len,outData ,len + 14);
     int result =  CMsgConn::Send(outData ,out_len);
+    free(outData);
     return result;
 }

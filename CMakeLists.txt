@@ -31,5 +31,5 @@ LIST(REMOVE_ITEM MSG_SERVER_SRC_LIST ../msg_server/LoginServConn.cpp)
 
 ADD_EXECUTABLE(websocket_server ${SRC_LIST} ${MSG_SERVER_SRC_LIST})
 
-TARGET_LINK_LIBRARIES(websocket_server base websocket protobuf-lite slog crypto pthread )
+TARGET_LINK_LIBRARIES(websocket_server base websocket protobuf-lite slog crypto ssl pthread )
  

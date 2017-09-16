@@ -9,7 +9,7 @@
 #include "FileServConn.h"
 //#include "version.h"
 #include "WebSocketConn.h"
-#define NEEDSSL 
+//#define NEEDSSL 
 
 
 #define DEFAULT_CONCURRENT_DB_CONN_CNT  10

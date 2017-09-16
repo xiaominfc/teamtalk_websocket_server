@@ -9,6 +9,9 @@
 #include "FileServConn.h"
 //#include "version.h"
 #include "WebSocketConn.h"
+#define NEEDSSL 
+
+
 #define DEFAULT_CONCURRENT_DB_CONN_CNT  10
 
 CAes *pAes;
@@ -27,6 +30,24 @@ void msg_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
         log("!!!error msg: %d ", msg);
     }
 }
+
+#ifdef NEEDSSL
+void try_run_ssl_server(CConfigFileReader *config_file) {
+    char* listen_ip = config_file->GetConfigName("SSLListenIP");
+    char* listen_port_str = config_file->GetConfigName("SSLListenPort");
+    char* CertFile = config_file->GetConfigName("SSLCertFile");
+    char* KeyFile = config_file->GetConfigName("SSLKeyFile");
+    if(listen_ip && listen_port_str && CertFile && KeyFile) {
+        uint16_t listen_port = atoi(listen_port_str);
+        CStrExplode listen_ip_list(listen_ip, ';');
+        for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
+             int ret = netlib_ssl_listen(listen_ip_list.GetItem(i), listen_port, msg_serv_callback, NULL);
+        }
+    }else {
+        log("not config for ssl");
+    }
+}
+#endif
 
 
 int main(int argc, char* argv[])
@@ -124,6 +145,9 @@ int main(int argc, char* argv[])
 
     printf("server start listen on: %s:%d\n", listen_ip, listen_port);
 
+#ifdef NEEDSSL
+    try_run_ssl_server(&config_file);
+#endif
     init_msg_conn();
 
     init_file_serv_conn(file_server_list, file_server_count);

@@ -45,3 +45,9 @@ websocket的实现引用了(http://katzarsky.github.com/WebSocket)
 感谢katzarsky
 
 测试用的demo可以参考:https://github.com/xiaominfc/teamtalk_websocket_client
+
+
+## SSL的支持 
+1 需要用我fork出来维护的Teamtalk的项目
+2 对比server/src/base目录代码的差异也可以 主要是给服务端添加了ssl的支持
+3 打开websocket_server.cpp中的宏#define NEEDSSL 

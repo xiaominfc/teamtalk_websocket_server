@@ -12,6 +12,11 @@
 //#define NEEDSSL 
 
 
+#ifdef NEEDSSL
+#include "SSLSocket.h"
+#endif
+
+
 #define DEFAULT_CONCURRENT_DB_CONN_CNT  10
 
 CAes *pAes;
@@ -38,6 +43,7 @@ void try_run_ssl_server(CConfigFileReader *config_file) {
     char* CertFile = config_file->GetConfigName("SSLCertFile");
     char* KeyFile = config_file->GetConfigName("SSLKeyFile");
     if(listen_ip && listen_port_str && CertFile && KeyFile) {
+        initSSLConfig(CertFile,KeyFile);
         uint16_t listen_port = atoi(listen_port_str);
         CStrExplode listen_ip_list(listen_ip, ';');
         for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {

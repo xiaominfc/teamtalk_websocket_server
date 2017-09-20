@@ -25,6 +25,12 @@ FileServerPort1=8600
 #FileServerIP2=localhost
 #FileServerPort2=8601
 
+
+SSLListenIP=0.0.0.0
+SSLListenPort=9091
+SSLCertFile=
+SSLKeyFile=
+
 IpAddr1=0.0.0.0	#电信IP
 IpAddr2=0.0.0.0	#网通IP
 MaxConnCnt=100000

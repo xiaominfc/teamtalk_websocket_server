@@ -28,7 +28,7 @@ public:
 	virtual int Send(void* data, int len);
 private:
 	bool m_websocket_inited;
-	WebSocket *m_websocket;
+	//WebSocket *m_websocket;
 };
 
 #endif

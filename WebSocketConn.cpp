@@ -31,11 +31,12 @@ void WebSocketConn::OnRead()
         m_in_buf.IncWriteOffset(ret);
         m_last_recv_tick = get_tick_count();
     }
+/*
     if(m_websocket == NULL)
     {
         m_websocket = new WebSocket;
     }
-
+*/
     
     WebSocket websocket;
     if(m_websocket_inited)

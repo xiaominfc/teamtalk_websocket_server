@@ -67,8 +67,8 @@ void WebSocketConn::OnRead()
                 data_length = 0;
                 use_length = 0;
                 frameType = websocket.getFrame(m_in_buf.GetBuffer() + read_count,m_in_buf.GetWriteOffset() ,dataBuffer ,m_in_buf.GetWriteOffset(), data_length,use_length);
-                //m_in_buf.~CSimpleBuffer();
             }
+            m_in_buf.~CSimpleBuffer();
         }catch(CPduException& ex)
         {
 

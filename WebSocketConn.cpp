@@ -56,7 +56,8 @@ void WebSocketConn::OnRead()
                 {
                     uint32_t pdu_len = pPdu->GetLength();
                     HandlePdu(pPdu);
-                    m_in_buf.Read(NULL, pdu_len);
+                    //m_in_buf.Read(NULL, pdu_len);
+                    dataBuffer = dataBuffer + pdu_len
                     delete pPdu;
                     pPdu = NULL;
                     break;

@@ -59,7 +59,7 @@ class WebSocket
 	string answerHandshake();
 
 	int makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_len, unsigned char* buffer, int buffer_len);
-	WebSocketFrameType getFrame(unsigned char* in_buffer, int in_length, unsigned char* out_buffer, int out_size, int* out_length);
+	WebSocketFrameType getFrame(unsigned char* in_buffer, int in_length, unsigned char* out_buffer, int out_size,  int &out_length, int &use_count);
 
 	string trim(string str);
 	vector<string> explode(string theString, string theDelimiter, bool theIncludeEmptyStrings = false );

@@ -44,11 +44,14 @@ void WebSocketConn::OnRead()
         CImPdu *pPdu = NULL;
         unsigned char *dataBuffer = (unsigned char*)malloc(m_in_buf.GetWriteOffset());
         try{
-            int data_length;
-            
-            WebSocketFrameType frameType = websocket.getFrame(m_in_buf.GetBuffer() ,m_in_buf.GetWriteOffset() ,dataBuffer ,m_in_buf.GetWriteOffset(), &data_length);
-            if(frameType == BINARY_FRAME || frameType == TEXT_FRAME)
+            int data_length = 0;
+            int use_length = 0;
+            int read_count = 0;
+            WebSocketFrameType frameType = websocket.getFrame(m_in_buf.GetBuffer() ,m_in_buf.GetWriteOffset() ,dataBuffer ,m_in_buf.GetWriteOffset(), data_length,use_length);
+            log("len:%d use:%d",m_in_buf.GetWriteOffset(),use_length);
+            while(frameType == BINARY_FRAME || frameType == TEXT_FRAME)
             {
+                read_count = read_count + use_length;
                 while((pPdu = CImPdu::ReadPdu((uchar_t*)dataBuffer,data_length)))
                 {
                     uint32_t pdu_len = pPdu->GetLength();
@@ -58,7 +61,13 @@ void WebSocketConn::OnRead()
                     pPdu = NULL;
                     break;
                 }
-                m_in_buf.~CSimpleBuffer();
+                if(read_count >= m_in_buf.GetWriteOffset()) {
+                    break;
+                }
+                data_length = 0;
+                use_length = 0;
+                frameType = websocket.getFrame(m_in_buf.GetBuffer() + read_count,m_in_buf.GetWriteOffset() ,dataBuffer ,m_in_buf.GetWriteOffset(), data_length,use_length);
+                //m_in_buf.~CSimpleBuffer();
             }
         }catch(CPduException& ex)
         {

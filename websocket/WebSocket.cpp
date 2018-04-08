@@ -254,7 +254,7 @@ WebSocketFrameType WebSocket::getFrame(unsigned char* in_buffer, int in_length, 
 	memcpy((void*)out_buffer, (void*)(in_buffer+pos), payload_length);
 	out_buffer[payload_length] = 0;
 	out_length = payload_length+1;
-	use_count = out_length + pos;
+	use_count = payload_length + pos;
 	
 	//printf("TEXT: %s\n", out_buffer);
 

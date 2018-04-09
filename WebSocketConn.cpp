@@ -49,7 +49,7 @@ void WebSocketConn::OnRead()
             int data_length = 0;
             int use_length = 0;
             int read_count = 0;
-            WebSocketFrameType frameType = websocket.getFrame(m_in_buf.GetBuffer() ,data_size ,dataBuffer ,data_size, data_length,use_length);
+            WebSocketFrameType frameType = websocket.getFrame(m_in_buf.GetBuffer() ,m_in_buf.GetWriteOffset() ,dataBuffer ,data_size, data_length,use_length);
             //log("len:%d use:%d",m_in_buf.GetWriteOffset(),use_length);
             while(frameType == BINARY_FRAME || frameType == TEXT_FRAME)
             {

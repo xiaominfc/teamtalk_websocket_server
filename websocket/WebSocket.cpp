@@ -246,18 +246,16 @@ WebSocketFrameType WebSocket::getFrame(unsigned char* in_buffer, int in_length, 
 			c[i] = c[i] ^ ((unsigned char*)(&mask))[i%4];
 		}
 	}
+	
 	use_count = payload_length + pos;
-	out_length = payload_length + 1;
+	out_length = payload_length;
 	if(payload_length > out_size || use_count > in_length) {
 		//TODO: if output buffer is too small -- ERROR or resize(free and allocate bigger one) the buffer ?
 		return ERROR_FRAME;
 	}
 
 	memcpy((void*)out_buffer, (void*)(in_buffer+pos), payload_length);
-	out_buffer[payload_length] = 0;
-	
-	
-	
+	//out_buffer[payload_length] = 0;
 	//printf("TEXT: %s\n", out_buffer);
 
 	if(msg_opcode == 0x0) return (msg_fin)?TEXT_FRAME:INCOMPLETE_TEXT_FRAME; // continuation frame ?

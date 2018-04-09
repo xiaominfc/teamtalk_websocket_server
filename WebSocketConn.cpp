@@ -85,7 +85,7 @@ void WebSocketConn::OnRead()
             string answer = websocket.answerHandshake();
             CMsgConn::Send((void *)answer.c_str(), answer.size());
             m_in_buf.Read(NULL, m_in_buf.GetWriteOffset());
-            m_in_buf.~CSimpleBuffer();
+          //  m_in_buf.~CSimpleBuffer();
             m_websocket_inited = true;                        
         }else {
             //OnClose();

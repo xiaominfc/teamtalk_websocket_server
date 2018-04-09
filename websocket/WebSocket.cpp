@@ -246,15 +246,17 @@ WebSocketFrameType WebSocket::getFrame(unsigned char* in_buffer, int in_length, 
 			c[i] = c[i] ^ ((unsigned char*)(&mask))[i%4];
 		}
 	}
-	
-	if(payload_length > out_size) {
+	use_count = payload_length + pos;
+	out_length = payload_length + 1;
+	if(payload_length > out_size || use_count > in_length) {
 		//TODO: if output buffer is too small -- ERROR or resize(free and allocate bigger one) the buffer ?
+		return ERROR_FRAME;
 	}
 
 	memcpy((void*)out_buffer, (void*)(in_buffer+pos), payload_length);
 	out_buffer[payload_length] = 0;
-	out_length = payload_length+1;
-	use_count = payload_length + pos;
+	
+	
 	
 	//printf("TEXT: %s\n", out_buffer);
 

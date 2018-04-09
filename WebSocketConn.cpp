@@ -42,13 +42,15 @@ void WebSocketConn::OnRead()
     if(m_websocket_inited)
     {
         CImPdu *pPdu = NULL;
-        unsigned char *dataBuffer = (unsigned char*)malloc(m_in_buf.GetWriteOffset());
+
+        int data_size = m_in_buf.GetWriteOffset();
+        unsigned char *dataBuffer = (unsigned char*)malloc(data_size);
         try{
             int data_length = 0;
             int use_length = 0;
             int read_count = 0;
-            WebSocketFrameType frameType = websocket.getFrame(m_in_buf.GetBuffer() ,m_in_buf.GetWriteOffset() ,dataBuffer ,m_in_buf.GetWriteOffset(), data_length,use_length);
-            log("len:%d use:%d",m_in_buf.GetWriteOffset(),use_length);
+            WebSocketFrameType frameType = websocket.getFrame(m_in_buf.GetBuffer() ,data_size ,dataBuffer ,data_size, data_length,use_length);
+            //log("len:%d use:%d",m_in_buf.GetWriteOffset(),use_length);
             while(frameType == BINARY_FRAME || frameType == TEXT_FRAME)
             {
                 read_count = read_count + use_length;
@@ -56,20 +58,20 @@ void WebSocketConn::OnRead()
                 {
                     uint32_t pdu_len = pPdu->GetLength();
                     HandlePdu(pPdu);
-                    //m_in_buf.Read(NULL, pdu_len);
-                    //dataBuffer = dataBuffer + pdu_len;
                     delete pPdu;
                     pPdu = NULL;
                     break;
                 }
-                if(read_count >= m_in_buf.GetWriteOffset()) {
+                m_in_buf.Read(NULL, use_length);
+                if(read_count >= data_size) {
                     break;
                 }
                 data_length = 0;
                 use_length = 0;
-                frameType = websocket.getFrame(m_in_buf.GetBuffer() + read_count,m_in_buf.GetWriteOffset() ,dataBuffer ,m_in_buf.GetWriteOffset(), data_length,use_length);
+                frameType = websocket.getFrame(m_in_buf.GetBuffer(),m_in_buf.GetWriteOffset() ,dataBuffer ,data_size, data_length,use_length);
             }
-            m_in_buf.~CSimpleBuffer();
+
+            //m_in_buf.~CSimpleBuffer();
         }catch(CPduException& ex)
         {
 

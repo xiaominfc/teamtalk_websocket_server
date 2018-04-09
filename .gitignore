@@ -44,3 +44,6 @@ log
 
 # conf
 *.conf
+
+
+*.DS_Store

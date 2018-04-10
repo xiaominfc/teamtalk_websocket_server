@@ -24,7 +24,12 @@ void WebSocketConn::OnRead()
         uint32_t free_buf_len = m_in_buf.GetAllocSize() - m_in_buf.GetWriteOffset();
         if (free_buf_len < READ_BUF_SIZE)
             m_in_buf.Extend(READ_BUF_SIZE);
-        int ret = netlib_recv(m_handle, m_in_buf.GetBuffer() + m_in_buf.GetWriteOffset(), READ_BUF_SIZE);
+        int ret = 0;
+        if(m_socket) {
+            ret = netlib_socket_recv(m_socket, m_in_buf.GetBuffer() + m_in_buf.GetWriteOffset(), READ_BUF_SIZE);
+        }else {
+            ret = netlib_recv(m_handle, m_in_buf.GetBuffer() + m_in_buf.GetWriteOffset(), READ_BUF_SIZE);
+        }
         if (ret <= 0)
             break;
         m_recv_bytes += ret;

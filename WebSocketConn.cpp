@@ -93,6 +93,7 @@ void WebSocketConn::OnRead()
             m_websocket_inited = true;                        
         }else {
             m_socket_type = NORMALSOCKET;
+            log("this is a normal socket");
             CImPdu *pPdu = NULL;
             try
             {

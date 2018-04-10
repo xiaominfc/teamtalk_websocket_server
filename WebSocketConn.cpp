@@ -20,7 +20,7 @@
 void WebSocketConn::OnRead()
 {
     if(m_socket_type == NORMALSOCKET) {
-        MsgConn::OnRead();
+        CMsgConn::OnRead();
         return;
     }
     for (;;)

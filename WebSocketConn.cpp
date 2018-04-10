@@ -19,6 +19,10 @@
 
 void WebSocketConn::OnRead()
 {
+    if(m_socket_type == NORMALSOCKET) {
+        MsgConn::OnRead();
+        return;
+    }
     for (;;)
     {
         uint32_t free_buf_len = m_in_buf.GetAllocSize() - m_in_buf.GetWriteOffset();
@@ -88,6 +92,27 @@ void WebSocketConn::OnRead()
           //  m_in_buf.~CSimpleBuffer();
             m_websocket_inited = true;                        
         }else {
+            m_socket_type = NORMALSOCKET;
+            CImPdu *pPdu = NULL;
+            try
+            {
+                while ((pPdu = CImPdu::ReadPdu(m_in_buf.GetBuffer(), m_in_buf.GetWriteOffset())))
+                {
+                    uint32_t pdu_len = pPdu->GetLength();
+                    HandlePdu(pPdu);
+                    m_in_buf.Read(NULL, pdu_len);
+                    delete pPdu;
+                    pPdu = NULL;
+                }
+            } catch (CPduException& ex) {
+                log("!!!catch exception, sid=%u, cid=%u, err_code=%u, err_msg=%s, close the connection ",
+                    ex.GetServiceId(), ex.GetCommandId(), ex.GetErrorCode(), ex.GetErrorMsg());
+                if (pPdu) {
+                    delete pPdu;
+                    pPdu = NULL;
+                }
+                OnClose();
+            }
             //OnClose();
         }    
     }
@@ -97,6 +122,9 @@ void WebSocketConn::OnRead()
 
 int WebSocketConn::Send(void *data, int len)
 {
+    if(m_socket_type == NORMALSOCKET){
+        return CMsgConn::Send(data ,len);
+    }
     WebSocket websocket;
     unsigned char* outData = (unsigned char*)malloc(len + 14);
     int out_len = websocket.makeFrame(BINARY_FRAME, (unsigned char*)data,len,outData ,len + 14);

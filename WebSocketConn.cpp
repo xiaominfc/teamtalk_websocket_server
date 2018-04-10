@@ -86,6 +86,7 @@ void WebSocketConn::OnRead()
     {
         WebSocketFrameType type = websocket.parseHandshake(m_in_buf.GetBuffer(),m_in_buf.GetWriteOffset()); 
         if(type == OPENING_FRAME) {
+            log("this is a websocket");
             string answer = websocket.answerHandshake();
             CMsgConn::Send((void *)answer.c_str(), answer.size());
             m_in_buf.Read(NULL, m_in_buf.GetWriteOffset());

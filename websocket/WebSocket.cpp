@@ -32,6 +32,7 @@ WebSocketFrameType WebSocket::parseHandshake(unsigned char* input_frame, int inp
 	}
 
 	headers.resize(header_end); // trim off any data we don't need after the headers
+	int key_count = 0;
 	vector<string> headers_rows = explode(headers, string("\r\n"));
 	for(int i=0; i<headers_rows.size(); i++) {
 		string& header = headers_rows[i];
@@ -40,6 +41,7 @@ WebSocketFrameType WebSocket::parseHandshake(unsigned char* input_frame, int inp
 			if(get_tokens.size() >= 2) {
 				this->resource = get_tokens[1];
 			}
+			key_count ++;
 		}
 		else {
 			int pos = header.find(":");
@@ -51,8 +53,13 @@ WebSocketFrameType WebSocket::parseHandshake(unsigned char* input_frame, int inp
 				else if(header_key == "Origin") this->origin = header_value;
 				else if(header_key == "Sec-WebSocket-Key") this->key = header_value;
 				else if(header_key == "Sec-WebSocket-Protocol") this->protocol = header_value;
+				key_count ++;
 			}
 		}
+	}
+
+	if(key_count < 2) {
+		return INCOMPLETE_FRAME;
 	}
 	
 	//printf("HANDSHAKE-PARSED\n");

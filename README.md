@@ -46,7 +46,7 @@ websocket的实现引用了(http://katzarsky.github.com/WebSocket)
 
 测试用的demo可以参考:https://github.com/xiaominfc/teamtalk_websocket_client
 
-在线演示可以参考:http://chat.xiaominfc.com/im
+在线演示可以参考:http://im.xiaominfc.com
 
 
 

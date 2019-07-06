@@ -34,7 +34,7 @@ ADD_DEFINITIONS( -g -W -Wall -D_REENTRANT -D_FILE_OFFSET_BITS=64 -DAC_HAS_INFO
 -DAC_HAS_DEBUG -DLINUX_DAEMON -std=c++11)
 
 INCLUDE_DIRECTORIES(./ ../msg_server ../base ./websocket ../base/pb/protocol ${PB_INCLUDE_DIR} ../base/security/ ${OPENSSL_INCLUDE_DIR}  ${OTHER_INCLUDE})
-LINK_DIRECTORIES(./ ../base ./websocket  ${PB_LIB_DIR} ../base/slog/lib ${SECURITY_LIB_DIR} ${OPENSSL_LIB_DIR})
+LINK_DIRECTORIES(./ ../base ./websocket  ${PB_LIB_DIR} ../base/slog/lib  ../slog  ${SECURITY_LIB_DIR} ${OPENSSL_LIB_DIR})
 
 #ADD_XXXX必须在TARGET_LINK_LIBRARIES前面，否则会报错
 #ADD_LIBRARY(${PROJECTNAME} SHARED/STATIC ${SRC_LIST})

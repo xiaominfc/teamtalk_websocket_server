@@ -40,6 +40,9 @@ LINK_DIRECTORIES(./ ../base ./websocket  ${PB_LIB_DIR} ../base/slog/lib  ../slog
 #ADD_LIBRARY(${PROJECTNAME} SHARED/STATIC ${SRC_LIST})
 
 LIST(REMOVE_ITEM MSG_SERVER_SRC_LIST ../msg_server/msg_server.cpp)
+
+# remove client_connect_impl.cpp for teamtalk project that my fork 
+LIST(REMOVE_ITEM MSG_SERVER_SRC_LIST ../msg_server/client_connect_impl.cpp)
 #LIST(REMOVE_ITEM MSG_SERVER_SRC_LIST ../msg_server/LoginServConn.cpp)
 
 ADD_EXECUTABLE(websocket_server ${SRC_LIST} ${MSG_SERVER_SRC_LIST})
